@@ -5,5 +5,5 @@ encontrará en un mundo con tres ubicaciones posibles y un enemigo distinto en c
 ellas. Para poder moverte dentro del juego, tendrás un menú principal y uno secundario para cada 
 una de las tres ubicaciones posibles.
 
-El programa también cuenta con un test para corroborar el correcto funcionamiento de dos de
-sus funciones, de restarVida() y sumarVida().
+El programa también cuenta con un test para corroborar el correcto funcionamiento de tres de
+sus funciones, de crearPersonaje(), restarVida() y sumarVida().

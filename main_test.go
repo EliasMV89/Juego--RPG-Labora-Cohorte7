@@ -2,6 +2,17 @@ package main
 
 import "testing"
 
+// Funcion para testear la funcion crearPersonaje
+func TestCrearPersonaje(t *testing.T) {
+	// Creo el personaje
+	personajeTest := crearPersonaje("Test", "golpe de espada", 100, 3)
+
+	// Verifico que se cree correctamente
+	if personajeTest == nil {
+		t.Errorf("El personaje no se creo correctamente.")
+	}
+}
+
 // Función para testear la función restarVida
 func TestRestarVida(t *testing.T) {
 	// Creo un personaje de prueba
