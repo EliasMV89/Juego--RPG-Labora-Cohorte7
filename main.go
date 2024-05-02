@@ -7,14 +7,15 @@ import (
 	"time"
 )
 
+// Estructura para representar personajes
 type Personaje struct {
 	Nombre    string
 	Habilidad string
-	Vida      int // Cantidad de vida con la que inicia la partida
+	Vida      int // La cantidad de vida con la que se inicia la partida
 	Posima    int // Cantidad de curas disponibles
 }
 
-// Funcion para crear a los personajes
+// Función para crear personajes
 func crearPersonaje(nombre, habilidad string, vida, posima int) *Personaje {
 	nuevoPersonaje := &Personaje{
 		Nombre:    nombre,
@@ -25,49 +26,49 @@ func crearPersonaje(nombre, habilidad string, vida, posima int) *Personaje {
 	return nuevoPersonaje
 }
 
-// Funsion para actualizar la cantidad de vida despues de un ataque
+// Función para actualizar la cantidad de vida después de un ataque
 func restarVida(personaje *Personaje, ataque int) bool {
 	personaje.Vida -= ataque
-	if personaje.Vida > 0 && personaje.Vida != 0 {
-		fmt.Printf("'%s' ha recibido un daño de %d' y su vida ahora es de  %d.\n ", personaje.Nombre, ataque, personaje.Vida)
-		return false
-	} else {
-		fmt.Printf("'%s' ha muerto!\n", personaje.Nombre)
+	if personaje.Vida <= 0 {
+		fmt.Printf("'%s' ¡Ha muerto!\n", personaje.Nombre)
 		return true // Indica que el personaje ha muerto
+	} else {
+		fmt.Printf("'%s' Ha recibido un daño de %d y su vida ahora es de: %d.\n ", personaje.Nombre, ataque, personaje.Vida)
+		return false
 	}
 }
 
-// Funsion para actualizar la vida despues de curarse
+// Funcion para actualizar la cantidad vida después de curarse
 func sumarVida(personaje *Personaje, cura int) {
 	if personaje.Posima > 0 {
-		if personaje.Vida < 100 && personaje.Vida+cura < 100 {
+		if personaje.Vida < 100 && personaje.Vida+cura <= 100 {
 			personaje.Vida += cura
 			personaje.Posima -= 1
-			fmt.Printf("'%s' ha recibido una cura de '%d' y su vida ahora es de %d.\n", personaje.Nombre, cura, personaje.Vida)
+			fmt.Printf("'%s' Ha recibido una cura de '%d' y su vida ahora es de: %d.\n", personaje.Nombre, cura, personaje.Vida)
 		} else {
 			personaje.Vida = 100
 			personaje.Posima -= 1
-			fmt.Printf("'%s' ha recibido una cura de '%d' y su vida ahora es de %d.\n", personaje.Nombre, cura, personaje.Vida)
+			fmt.Printf("'%s' ha recibido una cura de '%d' y su vida ahora es de: %d.\n", personaje.Nombre, cura, personaje.Vida)
 		}
 	} else {
-		fmt.Printf("No tienes posimas disponibles para curarte!\n")
+		fmt.Printf("No tienes posimas disponibles para curarte.\n")
 	}
 }
 
-// Mostrar informaccion del personaje
+// Función para mostrar la información del personaje
 func mostrarPersonaje(personaje *Personaje) {
 	fmt.Printf("******************************************************\n")
 	fmt.Printf(" Nombre: %s\n Habilidad: %s\n Vida: %d\n Cantidad de posimas: %d\n", personaje.Nombre, personaje.Habilidad, personaje.Vida, personaje.Posima)
 	fmt.Printf("******************************************************\n")
 }
 
-// Clase mundo
+// Estructura para representar mundos
 type Mundo struct {
 	Nombre    string
 	Ubicacion []string
 }
 
-// Funsion para crear el mundo
+// Función para crear mundos
 func crearMundo(Nombre string, Ubicacion []string) *Mundo {
 	nuevoMundo := &Mundo{
 		Nombre:    Nombre,
@@ -76,7 +77,7 @@ func crearMundo(Nombre string, Ubicacion []string) *Mundo {
 	return nuevoMundo
 }
 
-// Menu dentro de las ubicacones
+// Función para mostrar menú dentro de las ubicaciones
 func menuUbicacion(personaje, enemigo *Personaje, ubicacion string) {
 	if ubicacion == "" {
 		personaje = personaje
@@ -84,14 +85,14 @@ func menuUbicacion(personaje, enemigo *Personaje, ubicacion string) {
 	}
 	for {
 		fmt.Printf("Te encuentras en %s, frente a amenazante %s.\n ", ubicacion, enemigo.Nombre)
-		fmt.Printf("Debes seleccionar una opcion: \n")
-		fmt.Println("1.Atacar")
-		fmt.Println("2.Curarte")
-		fmt.Println("3.Mostrar informacion del personaje")
-		fmt.Println("4.Regresar al menu principal")
+		fmt.Printf("Debes seleccionar una opción: \n")
+		fmt.Println("1. Atacar")
+		fmt.Println("2. Curarte")
+		fmt.Println("3. Mostrar información del personaje")
+		fmt.Println("4. Regresar al menú principal")
 
 		var choice int
-		fmt.Print("Ingrese su opcion: ")
+		fmt.Print("Ingrese su opción: ")
 		fmt.Scanln(&choice)
 
 		// Procesar la opción seleccionada
@@ -99,7 +100,7 @@ func menuUbicacion(personaje, enemigo *Personaje, ubicacion string) {
 		case 1:
 			var ataque = randomizador()
 			if restarVida(enemigo, ataque) {
-				return // Salir del bucle principal si el personaje ha muerto
+				return // Salir al bucle principal si el personaje ha muerto
 			}
 			var contraataque = randomizador()
 			restarVida(personaje, contraataque)
@@ -113,12 +114,12 @@ func menuUbicacion(personaje, enemigo *Personaje, ubicacion string) {
 		case 4:
 			return
 		default:
-			fmt.Println("Opcion invalida")
+			fmt.Println("Opcióninvalida")
 		}
 	}
 }
 
-// Funsion para crear el valor aleatorio para ataque y cura
+// Función para crear el valor aleatorio para ataque y cura
 func randomizador() int {
 	valores := []int{10, 20, 30}     // Lista de valores posibles
 	rand.Seed(time.Now().UnixNano()) // Inicializa el generador de valores aleatorios
@@ -127,25 +128,25 @@ func randomizador() int {
 
 func main() {
 
-	// Creacion del personaje principal y los enemigos
+	// Creación del personaje principal y los enemigos
 	personajePrincipal := crearPersonaje("John Nieve", "golpe de espada", 100, 3)
 	enemigo1 := crearPersonaje("Hombre del hierro", "golpe de espada", 110, 0)
 	enemigo2 := crearPersonaje("Lobo guargo", "mordida", 110, 0)
 	enemigo3 := crearPersonaje("Caminante blanco", "golpe de espada de hielo", 180, 0)
 
-	// Creacion del mundo
+	// Creación del mundo
 	mundo1 := crearMundo("Poniente", []string{"Las Islas del Hierro", "El Bosque de Invernalia", "El Norte del Muro"})
 
 	for {
 		fmt.Printf("Bienvenido! %s al mundo de %s ❄ \n", personajePrincipal.Nombre, mundo1.Nombre)
 		fmt.Printf("******************************************************\n")
-		fmt.Printf("Debes elegir una ubicacion dentro de este mundo.\n")
+		fmt.Printf("Debes elegir una ubicación dentro de este mundo.\n")
 
 		fmt.Printf("******************************************************\n")
-		fmt.Println("1.Islas del Hierro")
-		fmt.Println("2.Bosque de Invernalia")
-		fmt.Println("3.Norte del Muro")
-		fmt.Println("4.Para salir de la partida")
+		fmt.Println("1. Islas del Hierro")
+		fmt.Println("2. Bosque de Invernalia")
+		fmt.Println("3. Norte del Muro")
+		fmt.Println("4. Para salir de la partida")
 
 		var choice int
 		fmt.Print("Ingrese su opción: ")
@@ -161,7 +162,6 @@ func main() {
 		case 4:
 			fmt.Println("salir")
 			os.Exit(0)
-
 		default:
 			fmt.Println("Opción inválida. Por favor, intente de nuevo.")
 		}
